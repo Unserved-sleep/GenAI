@@ -1,27 +1,22 @@
 import streamlit as st
-from llm import ask_llm
+from services.insurance_assistant import InsuranceAssistant
 
 st.set_page_config(
-    page_title="AI FAQ Assistant",
-    page_icon="🤖"
+    page_title="AI Insurance Assistant",
+    page_icon="🛡",
+    layout="wide"
+)
+if "assistant" not in st.session_state:
+    st.session_state.assistant = InsuranceAssistant()
+assistant = st.session_state.assistant
+st.title("🛡 Context-Aware Insurance Assistant")
+question = st.text_input(
+    "Ask an insurance question"
 )
 
-st.title("🤖 AI FAQ Assistant")
-st.write(
-    "Ask any insurance-related question."
-)
-
-question = st.text_area(
-    "Your Question"
-)
-
-if st.button("Ask"):
+if st.button("Send"):
     if question.strip():
         with st.spinner("Thinking..."):
-            answer = ask_llm(question)
-
-        st.success("Answer")
-        st.write(answer)
-
-    else:
-        st.warning("Please enter a question.")
+            response = assistant.ask(question)
+        st.markdown("### 🤖 Assistant")
+        st.write(response)
