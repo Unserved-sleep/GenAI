@@ -1,9 +1,9 @@
-from services.insurance_assistant import InsuranceAssistant
+from services.retriever import Retriever
 
-assistant = InsuranceAssistant()
+retriever = Retriever()
 
-response = assistant.ask(
-    "Can I renew it online?"
+results = retriever.retrieve(
+    "What is the waiting period for pre-existing diseases?"
 )
 
-print(response)
+print(results)

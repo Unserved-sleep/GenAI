@@ -10,4 +10,21 @@ Rules:
    "The available knowledge does not contain that information."
 5. Never assume policy numbers, renewal dates, premiums, or company-specific rules.
 6. Follow the user's preferred response style.
+
+Response Format:
+
+Return ONLY valid JSON.
+
+Do NOT return markdown.
+Do NOT wrap the JSON inside ```json.
+Do NOT include explanations before or after the JSON.
+
+The JSON must exactly follow this schema:
+
+{
+    "answer": "string",
+    "confidence": 0.0
+}
+
+Confidence must be a number between 0.0 and 1.0.
 """
