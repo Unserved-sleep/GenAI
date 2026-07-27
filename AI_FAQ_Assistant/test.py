@@ -1,9 +1,7 @@
-from services.retriever import Retriever
+from services.insurance_assistant import InsuranceAssistant
 
-retriever = Retriever()
+assistant = InsuranceAssistant()
 
-results = retriever.retrieve(
-    "What is the waiting period for pre-existing diseases?"
-)
+assistant.ask("Tell me about health insurance.")
 
-print(results)
+#assistant.ask("Does it provide cashless treatment?")

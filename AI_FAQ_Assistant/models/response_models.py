@@ -5,7 +5,10 @@ class Source(BaseModel):
     document: str
     chunk: int
 
+
+from pydantic import BaseModel, Field
+
 class InsuranceResponse(BaseModel):
     answer: str
     confidence: float
-    sources: List[Source]
+    sources: list[Source] = Field(default_factory=list)

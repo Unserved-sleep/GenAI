@@ -7,14 +7,16 @@ from textwrap import dedent
 
 from config.prompts import SYSTEM_PROMPT
 from memory.manager import MemoryManager
+from memory.conversation import ConversationManager
 
 class ContextBuilder:
-
     def __init__(
-            self,
-            memory_manager: MemoryManager,
+        self,
+        memory_manager: MemoryManager,
+        conversation_manager: ConversationManager,
     ):
         self.memory_manager = memory_manager
+        self.conversation_manager = conversation_manager
 
     def _format_knowledge(self, retrieved_chunks):
         if not retrieved_chunks:
@@ -41,6 +43,10 @@ class ContextBuilder:
             {
                 "role": "system",
                 "content": self._format_memory(),
+            },
+            {
+                "role": "system",
+                "content": self._format_conversation(),
             },
             {
                 "role": "system",
@@ -71,5 +77,21 @@ class ContextBuilder:
     Language:
     {memory.preferences.language}
     """)
+
+    def _format_conversation(self) -> str:
+        messages = self.conversation_manager.get_messages()
+        if not messages:
+            return "Conversation History:\nNone"
+
+        history = "Conversation History:\n\n"
+
+        # Last 6 messages
+        for message in messages[-6:]:
+            history += (
+                f"{message['role'].upper()}: "
+                f"{message['content']}\n"
+            )
+
+        return history
 
 
