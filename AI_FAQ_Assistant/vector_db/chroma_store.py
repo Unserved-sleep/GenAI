@@ -1,10 +1,12 @@
 import chromadb
 
+
 class ChromaStore:
+
     def __init__(
         self,
         db_path="vector_db/chroma_db",
-        collection_name="insurance_documents"
+        collection_name="insurance_documents",
     ):
 
         self.client = chromadb.PersistentClient(path=db_path)
@@ -14,11 +16,13 @@ class ChromaStore:
         )
 
     def add_chunks(
-            self,
-            chunks,
-            embeddings
+        self,
+        chunks,
+        embeddings,
     ):
+
         self.collection.add(
+
             ids=[
                 chunk.id
                 for chunk in chunks
@@ -28,6 +32,7 @@ class ChromaStore:
                 chunk.text
                 for chunk in chunks
             ],
+
             embeddings=embeddings.tolist(),
 
             metadatas=[
@@ -37,20 +42,32 @@ class ChromaStore:
         )
 
     def search(
-            self,
-            query_embedding,
-            top_k=3
+        self,
+        query_embedding,
+        top_k=3,
     ):
+
         return self.collection.query(
 
             query_embeddings=[
                 query_embedding.tolist()
             ],
-            n_results=top_k
+
+            n_results=top_k,
+
+            include=[
+                "documents",
+                "metadatas",
+                "distances",
+            ]
         )
 
     def reset(self):
-        self.client.delete_collection("insurance_documents")
+
+        self.client.delete_collection(
+            "insurance_documents"
+        )
+
         self.collection = self.client.create_collection(
             "insurance_documents"
         )

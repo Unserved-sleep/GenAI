@@ -14,6 +14,7 @@ class Settings:
 
     TEMPERATURE = 0.3
     MAX_TOKENS = 1024
+    MAX_RETRIEVAL_DISTANCE = 0.90
 
     # Debug Mode
     DEBUG = os.getenv("DEBUG", "False").lower() == "true"

@@ -1,7 +1,9 @@
-from services.insurance_assistant import InsuranceAssistant
+from llm.multi_query_generator import MultiQueryGenerator
 
-assistant = InsuranceAssistant()
+generator = MultiQueryGenerator()
 
-assistant.ask("Tell me about health insurance.")
+queries = generator.generate(
+    "What is cashless treatment?"
+)
 
-#assistant.ask("Does it provide cashless treatment?")
+print(queries)

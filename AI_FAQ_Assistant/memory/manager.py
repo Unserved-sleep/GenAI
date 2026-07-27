@@ -37,3 +37,6 @@ class MemoryManager:
         preference: ResponseLength,
     ):
         self.memory.preferences.response_length = preference
+
+    def get_active_product(self):
+        return self.memory.user.active_product
