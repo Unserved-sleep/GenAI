@@ -2,8 +2,6 @@ from services.insurance_assistant import InsuranceAssistant
 
 assistant = InsuranceAssistant()
 
-response = assistant.ask(
-    "Can I renew it online?"
-)
+assistant.ask("Tell me about health insurance.")
 
-print(response)
+#assistant.ask("Does it provide cashless treatment?")

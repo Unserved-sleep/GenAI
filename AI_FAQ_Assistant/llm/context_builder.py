@@ -6,42 +6,35 @@ Combines all available context before sending it to the LLM.
 from textwrap import dedent
 
 from config.prompts import SYSTEM_PROMPT
-from knowledge.knowledge_base import KnowledgeBase
 from memory.manager import MemoryManager
+from memory.conversation import ConversationManager
 
 class ContextBuilder:
-
     def __init__(
         self,
         memory_manager: MemoryManager,
-        knowledge_base: KnowledgeBase,
+        conversation_manager: ConversationManager,
     ):
         self.memory_manager = memory_manager
-        self.knowledge_base = knowledge_base
+        self.conversation_manager = conversation_manager
 
-    def _format_knowledge(self) -> str:
-        knowledge = self.knowledge_base.get_context(
-            "health",
-            "renewal"
-        )
-
-        if knowledge is None:
+    def _format_knowledge(self, retrieved_chunks):
+        if not retrieved_chunks:
             return "No relevant knowledge found."
 
-        return dedent(f"""
-        Relevant Knowledge
+        context = "Relevant Insurance Knowledge:\n\n"
+        for chunk in retrieved_chunks:
+            context += chunk["text"]
+            context += "\n\n"
 
-        {knowledge}
-        """)
+        return context
 
     def build(
-        self,
-        question: str,
+            self,
+            question: str,
+            retrieved_chunks: list[dict],
     ) -> list[dict]:
-        """
-        Build the final messages list.
-        """
-        memory = self.memory_manager.get_memory()
+
         messages = [
             {
                 "role": "system",
@@ -53,7 +46,11 @@ class ContextBuilder:
             },
             {
                 "role": "system",
-                "content": self._format_knowledge(),
+                "content": self._format_conversation(),
+            },
+            {
+                "role": "system",
+                "content": self._format_knowledge(retrieved_chunks),
             },
             {
                 "role": "user",
@@ -80,3 +77,21 @@ class ContextBuilder:
     Language:
     {memory.preferences.language}
     """)
+
+    def _format_conversation(self) -> str:
+        messages = self.conversation_manager.get_messages()
+        if not messages:
+            return "Conversation History:\nNone"
+
+        history = "Conversation History:\n\n"
+
+        # Last 6 messages
+        for message in messages[-6:]:
+            history += (
+                f"{message['role'].upper()}: "
+                f"{message['content']}\n"
+            )
+
+        return history
+
+

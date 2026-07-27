@@ -15,5 +15,8 @@ class Settings:
     TEMPERATURE = 0.3
     MAX_TOKENS = 1024
 
+    # Debug Mode
+    DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+
 
 settings = Settings()

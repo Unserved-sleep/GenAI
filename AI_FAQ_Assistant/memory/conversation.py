@@ -35,5 +35,8 @@ class ConversationManager:
             }
         )
 
+    def get_messages(self):
+        return self.memory_manager.memory.recent_messages
+
     def clear(self):
         self.memory_manager.memory.recent_messages.clear()
