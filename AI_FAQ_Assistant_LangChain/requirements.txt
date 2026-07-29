@@ -1,0 +1,9 @@
+# LangChain and core requirements
+langchain
+langchain-openai
+langchain-community
+python-dotenv
+streamlit
+pydantic
+chromadb
+tiktoken

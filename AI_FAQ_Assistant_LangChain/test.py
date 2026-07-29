@@ -1,29 +1,5 @@
-from graph.graph import build_graph
-from rag.indexer import build_index
+from rag.vectorstore import load_vectorstore
 
-vectorstore, _ = build_index()
-graph = build_graph(vectorstore)
+vs = load_vectorstore()
 
-config = {
-    "configurable": {
-        "thread_id": "demo-user"
-    }
-}
-
-graph.invoke(
-    {
-        "question": "What is health insurance?"
-    },
-    config=config,
-)
-
-graph.invoke(
-    {
-        "question": "What are waiting periods?"
-    },
-    config=config,
-)
-
-state = graph.get_state(config)
-
-print(state.values)
+print(vs._collection.count())
