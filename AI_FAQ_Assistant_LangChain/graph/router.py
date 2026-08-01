@@ -1,5 +1,9 @@
 def route_after_retrieval(state):
 
+    # No documents retrieved
+    if not state["scores"]:
+        return "no_documents"
+
     best_score = min(state["scores"])
 
     THRESHOLD = 1.0

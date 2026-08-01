@@ -5,7 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
-AI_FAQ_Assistant/vector_db/chroma_db/
+AI_FAQ_Assistant/vector_db/
+AI_FAQ_Assistant_LangChain/vector_db/
+vector_db/
 .idea
 .venv
 .env

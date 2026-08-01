@@ -1,6 +1,5 @@
 import chromadb
 
-
 class ChromaStore:
 
     def __init__(
